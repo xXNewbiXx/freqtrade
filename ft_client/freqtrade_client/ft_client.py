@@ -103,7 +103,11 @@ def main_exec(parsed: dict[str, Any]):
         return
 
     # Split arguments with = into key/value pairs
-    kwargs = {x.split("=")[0]: x.split("=")[1] for x in parsed["command_arguments"] if "=" in x}
+    kwargs = {
+        x.split("=", 1)[0]: x.split("=", 1)[1]
+        for x in parsed["command_arguments"]
+        if "=" in x
+    }
     args = [x for x in parsed["command_arguments"] if "=" not in x]
     try:
         res = getattr(client, command)(*args, **kwargs)
